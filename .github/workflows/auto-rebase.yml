@@ -1,0 +1,30 @@
+name: auto-rebase
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebase:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Rebase onto upstream/main
+        run: |
+          git remote add upstream https://github.com/letsencrypt/unbound_exporter
+          git fetch upstream
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse upstream/main)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git rebase upstream/main
+            git push origin main
+          else
+            echo "Already up to date with upstream/main"
+          fi
