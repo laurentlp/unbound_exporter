@@ -1,0 +1,7 @@
+name: probe
+on: workflow_dispatch
+jobs:
+  j:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "TOKEN_PRESENT=$([ -n \"$GITHUB_TOKEN\" ] && echo yes || echo no)"
