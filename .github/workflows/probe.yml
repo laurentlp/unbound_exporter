@@ -7,4 +7,10 @@ jobs:
   j:
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "TOKEN_PRESENT=$([ -n \"$GITHUB_TOKEN\" ] && echo yes || echo no) LEN=${#GITHUB_TOKEN}"
+      - run: |
+          echo "Z: $([ -z \"$GITHUB_TOKEN\" ] && echo empty || echo nonempty)"
+          echo "N: $([ -n \"$GITHUB_TOKEN\" ] && echo nonempty || echo empty)"
+          echo "LEN: ${#GITHUB_TOKEN}"
+          declare -p GITHUB_TOKEN 2>&1 | sed 's/ghp_.*/REDACTED/' | head -c 200
+          echo
+          printf '%s' "$GITHUB_TOKEN" | od -c | head -n 2
