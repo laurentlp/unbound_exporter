@@ -1,7 +1,0 @@
-name: probeA
-on: workflow_dispatch
-jobs:
-  j:
-    runs-on: ubuntu-24.04
-    steps:
-      - run: declare -p GITHUB_TOKEN >/dev/null 2>&1 && echo "A_TOKEN=set" || echo "A_TOKEN=unset"
