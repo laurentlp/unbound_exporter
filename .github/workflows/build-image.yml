@@ -28,6 +28,6 @@ jobs:
         run: |
           SHORT="${COMMIT:0:7}"
           docker buildx build --platform linux/amd64,linux/arm64 \
-            -t "ghcr.io/laurentlp/unbound-exporter:latest" \
-            -t "ghcr.io/laurentlp/unbound-exporter:${SHORT}" \
+            -t "ghcr.io/laurentlp/unbound_exporter_fork:latest" \
+            -t "ghcr.io/laurentlp/unbound_exporter_fork:forktest" \
             --push .
