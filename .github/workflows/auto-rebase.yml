@@ -17,6 +17,8 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - name: Rebase onto upstream/main
+        env:
+          PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git remote add upstream https://github.com/letsencrypt/unbound_exporter
           git fetch upstream
@@ -24,7 +26,8 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git rebase upstream/main
-            git push origin main
+            # persist-credentials: false (zizmor) means origin has no embedded token — push with it explicitly
+            git push "https://x-access-token:${PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main
           else
             echo "Already up to date with upstream/main"
           fi
